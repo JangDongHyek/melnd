@@ -8,14 +8,21 @@ import win32api
 import ctypes
 import pyMeow as pm
 
+
 def findAll() :
     while True :
         myPos()
         findMonsters(globals.hunt_monsters)
 
+def getDist() :
+    if globals.direction == "left" :
+        globals.dist = (globals.my_pos[0] - 500, globals.my_pos[1] - 100, globals.my_pos[0] + 30, globals.my_pos[1] + 200)
+    else :
+        globals.dist = (globals.my_pos[0],globals.my_pos[1]-100,globals.my_pos[0]+500,globals.my_pos[1]+200)
+
 def myPos() :
     try :
-        p = gsl.imageSearch("res/my.png")
+        p = gsl.pixelSearch([350,400,1650,800],[(221,0,0)])
         if(p) :
             globals.my_pos = (p[0],p[1])
     except Exception as e :
@@ -24,14 +31,16 @@ def myPos() :
 def hwndRactangle() :
     try :
         pm.overlay_init()
-
+        color = pm.get_color("#0400ff")
+        color2 = pm.get_color("#ff0000")
         while pm.overlay_loop():
             pm.begin_drawing()
-            my_pos = globals.my_pos
-            color = pm.get_color("#0400ff")
-            for monster in globals.monsters :
-                pm.draw_line(my_pos[0],my_pos[1],monster[0],monster[1],color)
-                pm.draw_rectangle_lines(monster[0],monster[1],monster[2],monster[3], color, 3.0)
+            myPos()
+            getDist()
+            checkMonsterPix()
+            pm.draw_rectangle_lines(globals.dist[0],globals.dist[1],globals.dist[2] - globals.dist[0],globals.dist[3] - globals.dist[1], color, 3.0)
+            if globals.monster_pos :
+                pm.draw_rectangle(globals.monster_pos[0],globals.monster_pos[1],50,50,color2)
 
             pm.end_drawing()
     except Exception as e:
@@ -82,10 +91,12 @@ def findMonsters(target_image_paths):
     except Exception as e :
         print("find")
 
-def checkMonsterPix(dist,monsters) :
-    if(gsl.pixelSearch(dist,monsters)) :
-        return True
-    return False
+def checkMonsterPix() :
+    p = gsl.pixelSearch(globals.dist,globals.monsters)
+    if(p) :
+        globals.monster_pos = p
+    else :
+        globals.monster_pos = None
 def checkMp():
     p = gsl.imageSearch("res/mp.png")
     if (p):

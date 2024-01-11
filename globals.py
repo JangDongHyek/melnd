@@ -24,11 +24,14 @@ game_roon_time = 1698580596.066545 # 시간을 고정으로 넣어서 첫번쨰 
 # 메랜
 mp_pixcel = [(0, 170, 255),(0, 159, 238)]
 minimap = None
-minimap_my = [(255, 255, 0),(255, 255, 136)]
+minimap_my = [(255, 255, 136)]
 my_pos = ()
-monsters = []
+monsters = [(170, 175, 137)]
+monster_pos = None
 hunt_monsters = ["res/monsters/slime1.png","res/monsters/slime2.png"]
 minimap_my_pos = None
+direction = "left"
+dist = None
 
 # 하드웨어 키값
 esc,f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12 = 100,101,102,103,104,105,106,107,108,109,110,111,112
