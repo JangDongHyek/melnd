@@ -5,8 +5,13 @@ import win32api
 import time
 import numpy as np
 import cv2
+import winsound as sd
 
 # def imageTargetRactangle(image,target,targets = []) :
+def playBeep() :
+    fr = 2000  # range : 37 ~ 32767
+    du = 1000  # 1000 ms ==1second
+    sd.Beep(fr, du)  # winsound.Beep(frequency, duration)
 
 
 def offHardKey() :
