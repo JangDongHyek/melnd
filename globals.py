@@ -24,6 +24,7 @@ my_pos = ()
 threadRender = False
 my_pixel = []
 map_scope = []
+hp = None
 
 
 
@@ -48,7 +49,7 @@ insert,home,pageup,delete,end,pagedown = 703,704,705,706,707,708
 skills = [
     {
         "key" : home,
-        "cooldown" : 400,
+        "cooldown" : 200,
         "time" : time.time()
     },
 

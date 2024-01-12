@@ -61,20 +61,24 @@ def pixelseSerarch(points, pixcels,diff = 1) :
 
 def pixelSearch(points, pixcels) :
     screen = screenshot().load()
-
+    start_x = points[0]
+    end_x = points[2]
+    if start_x > 1920:
+        start_x = 1900
+    if end_x > 1920:
+        end_x = 1910
     main = True
-    x = points[0]
+    x = start_x
     y = points[1]
-
     while main:
-        if x == points[2] and y == points[3]:
+        if x == end_x and y == points[3]:
             main = False
         if screen[x, y] in pixcels:
             return (x, y)
 
-        if x == points[2]:
+        if x == end_x:
             y += 1
-            x = points[0]
+            x = start_x
         x += 1
     return None
 
@@ -123,6 +127,7 @@ def screenshot(name = None,scale = []):
     x, y, x1, y1 = win32gui.GetClientRect(globals.hwnd)
     x, y = win32gui.ClientToScreen(globals.hwnd, (x, y))
     x1, y1 = win32gui.ClientToScreen(globals.hwnd, (x1 - x, y1 - y))
+
     if (len(scale)):
         im = pyautogui.screenshot(region=(scale[0], scale[1], scale[2] - scale[0], scale[3] - scale[1]))
     else:
@@ -136,75 +141,3 @@ def screenshot(name = None,scale = []):
 
     return im
 
-def imageYolo(weights,name = None, scale = []) :
-    net = cv2.dnn.readNet("yolo/" + weights + ".weights","yolo/" + weights + ".cfg")
-    classes = []
-    arrays = []
-    with open("yolo/" + weights + ".names", "r") as f:
-        classes = [line.strip() for line in f.readlines()]
-    layer_names = net.getLayerNames()
-    output_layers = [layer_names[i - 1] for i in net.getUnconnectedOutLayers()]
-    colors = np.random.uniform(0, 255, size=(len(classes), 4))
-
-    # 이미지 가져오기
-    if name :
-        img = cv2.imread(name)
-    else :
-        if(len(scale)) :
-            screen = screenshot(name,scale)
-        else :
-            screen = screenshot()
-
-        img = np.array(screen)
-        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
-    height, width, channels = img.shape
-
-    # Detecting objects
-    blob = cv2.dnn.blobFromImage(img, 0.00392, (416, 416), (0, 0, 0), True, crop=False)
-    net.setInput(blob)
-    outs = net.forward(output_layers)
-
-    class_ids = []
-    confidences = []
-    boxes = []
-    for out in outs:
-        for detection in out:
-            scores = detection[5:]
-            class_id = np.argmax(scores)
-            confidence = scores[class_id]
-            if confidence > 0.5:
-                # Object detected
-                center_x = int(detection[0] * width)
-                center_y = int(detection[1] * height)
-                w = int(detection[2] * width)
-                h = int(detection[3] * height)
-                # 좌표
-                x = int(center_x - w / 2)
-                y = int(center_y - h / 2)
-                boxes.append([x, y, w, h])
-                confidences.append(float(confidence))
-                class_ids.append(class_id)
-
-    indexes = cv2.dnn.NMSBoxes(boxes, confidences, 0.5, 0.4)
-
-    font = cv2.FONT_HERSHEY_PLAIN
-    for i in range(len(boxes)):
-        if i in indexes:
-            x, y, w, h = boxes[i]
-            label = str(classes[class_ids[i]])
-            color = colors[class_ids[i]]
-            cv2.rectangle(img, (x, y), (x + w, y + h), color, 2)
-            cv2.putText(img, label, (x, y + 30), font, 3, color, 3)
-
-            obj = {
-                "x": x,
-                "y": y,
-                "label": label
-            }
-
-            arrays.append(obj)
-
-    arrays.sort(key = lambda x: x["x"])
-
-    return arrays

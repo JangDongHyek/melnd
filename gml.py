@@ -10,12 +10,14 @@ import pyMeow as pm
 import lib
 
 def checkHP() :
-    gsl.pixelSearch([500,1050,510,1060])
+    return gsl.pixelSearch([500,1050,510,1060],(190, 190, 190))
 def getDist() :
-    if globals.direction == "left" :
-        globals.dist = (globals.my_pos[0] - 500, globals.my_pos[1] - 100, globals.my_pos[0] + 30, globals.my_pos[1] + 200)
-    else :
-        globals.dist = (globals.my_pos[0],globals.my_pos[1]-100,globals.my_pos[0]+500,globals.my_pos[1]+200)
+    # if globals.direction == "left" :
+    #     globals.dist = (globals.my_pos[0] - 500, globals.my_pos[1] - 100, globals.my_pos[0] + 30, globals.my_pos[1] + 200)
+    # else :
+    #     globals.dist = (globals.my_pos[0],globals.my_pos[1]-100,globals.my_pos[0]+500,globals.my_pos[1]+200)
+
+    globals.dist = (globals.my_pos[0] - 500, globals.my_pos[1] - 100, globals.my_pos[0] + 500, globals.my_pos[1] + 200)
 
 def myPos() :
     try :
@@ -27,16 +29,11 @@ def myPos() :
 
 def update() :
     while True:
-        getMyPosition()
+
         myPos()
         getDist()
         checkMonsterPix()
-        # 좌표에따른 방향 설정
-        if globals.map_scope[0] > globals.minimap_my_pos[0]:
-            globals.direction = "right"
 
-        if globals.map_scope[1] < globals.minimap_my_pos[0]:
-            globals.direction = "left"
 
 def render() :
     try :
@@ -57,51 +54,6 @@ def render() :
         gsl.playBeep()
         globals.threadRender = True
 
-
-
-def findMonsters(target_image_paths):
-    # 메인 이미지와 타겟 이미지 로드
-    try :
-        main_image = np.array(gsl.screenshot())
-
-        lists = []
-        for target_image_path in target_image_paths :
-
-            target_image = cv2.imread(target_image_path)
-            # 타겟 이미지의 높이와 너비
-            target_height, target_width = target_image.shape[:2]
-
-            # 템플릿 매칭 수행
-            result = cv2.matchTemplate(main_image, target_image, cv2.TM_CCOEFF_NORMED)
-
-            # 일정 유사도 이상의 위치 찾기
-            threshold = 0.8
-
-            obj = {
-                "target_height": target_height,
-                "target_width": target_width,
-                "loc": np.where(result >= threshold)
-            }
-            lists.append(obj)
-
-        # 타겟 이미지가 등장한 횟수 계산
-        monsters = []
-        for obj in lists :
-            for pt in zip(*obj["loc"][::-1]):
-
-                flag = False
-                for monster in monsters :
-                    if abs(pt[0] - monster[0]) < 4 :
-                        flag = True
-                        break
-                if(flag) :
-                    continue
-                monsters.append((pt[0],pt[1],obj["target_width"],obj["target_height"]))
-
-
-        globals.monsters = monsters
-    except Exception as e :
-        print("find")
 
 def checkMonsterPix() :
     p = gsl.pixelSearch(globals.dist,globals.monsters)
