@@ -9,6 +9,13 @@ import ctypes
 import pyMeow as pm
 import lib
 
+def jumpIF(rope) :
+    if globals.direction == "left":
+        return globals.minimap_my_pos[0] < (rope + 10)
+    else :
+        return globals.minimap_my_pos[0] > (rope - 10)
+
+
 def findMap(name) :
     for map in globals.maps :
         if name == map["name"] :
@@ -26,7 +33,7 @@ def getDist() :
 
 def myPos() :
     try :
-        p = gsl.pixelSearch([350,400,1650,800],globals.my_pixel)
+        p = gsl.pixelSearch([350,550,1650,800],globals.my_pixel)
         if(p) :
             globals.my_pos = (p[0],p[1])
     except Exception as e :
@@ -45,8 +52,7 @@ def render() :
         pm.overlay_init()
         color = pm.get_color("#0400ff")
         color2 = pm.get_color("#ff0000")
-        main = True
-        while pm.overlay_loop() and main:
+        while pm.overlay_loop():
             pm.begin_drawing()
             pm.draw_rectangle_lines(globals.dist[0],globals.dist[1],globals.dist[2] - globals.dist[0],globals.dist[3] - globals.dist[1], color, 3.0)
             if globals.monster_pos :
@@ -54,13 +60,7 @@ def render() :
             pm.end_drawing()
     except Exception as e:
         print("hwnd")
-        print(e)
-        print(globals.dist)
-        print(globals.my_pos)
-        globals.thread_flag = True
-        gsl.playBeep()
         globals.threadRender = True
-        main = False
 
 
 def checkMonsterPix() :
