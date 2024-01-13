@@ -4,8 +4,9 @@ import time
 import gsl
 import globals
 import init
+import gml
 
 init.Init()
-
-gsl.pixelSearch([1931,100,1942,200],[(100,100,100)])
-
+gml.getMinimap()
+gml.getMyPosition()
+print(globals.minimap_my_pos)

@@ -62,16 +62,25 @@ def pixelseSerarch(points, pixcels,diff = 1) :
 def pixelSearch(points, pixcels) :
     screen = screenshot().load()
     start_x = points[0]
+    start_y = points[1]
     end_x = points[2]
+    end_y = points[3]
     if start_x > 1920:
         start_x = 1900
     if end_x > 1920:
         end_x = 1910
+
+    if start_y > 1080:
+        start_y = 1060
+    if end_y > 1080:
+        end_y = 1070
+
+
     main = True
     x = start_x
-    y = points[1]
+    y = start_y
     while main:
-        if x == end_x and y == points[3]:
+        if x == end_x and y == end_y:
             main = False
         if screen[x, y] in pixcels:
             return (x, y)

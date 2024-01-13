@@ -9,6 +9,11 @@ import ctypes
 import pyMeow as pm
 import lib
 
+def findMap(name) :
+    for map in globals.maps :
+        if name == map["name"] :
+            return map
+
 def checkHP() :
     return gsl.pixelSearch([500,1050,510,1060],(190, 190, 190))
 def getDist() :
@@ -17,7 +22,7 @@ def getDist() :
     # else :
     #     globals.dist = (globals.my_pos[0],globals.my_pos[1]-100,globals.my_pos[0]+500,globals.my_pos[1]+200)
 
-    globals.dist = (globals.my_pos[0] - 500, globals.my_pos[1] - 100, globals.my_pos[0] + 500, globals.my_pos[1] + 200)
+    globals.dist = (globals.my_pos[0] - 450, globals.my_pos[1] - 100, globals.my_pos[0] + 450, globals.my_pos[1] + 200)
 
 def myPos() :
     try :
@@ -40,7 +45,8 @@ def render() :
         pm.overlay_init()
         color = pm.get_color("#0400ff")
         color2 = pm.get_color("#ff0000")
-        while pm.overlay_loop():
+        main = True
+        while pm.overlay_loop() and main:
             pm.begin_drawing()
             pm.draw_rectangle_lines(globals.dist[0],globals.dist[1],globals.dist[2] - globals.dist[0],globals.dist[3] - globals.dist[1], color, 3.0)
             if globals.monster_pos :
@@ -50,9 +56,11 @@ def render() :
         print("hwnd")
         print(e)
         print(globals.dist)
+        print(globals.my_pos)
         globals.thread_flag = True
         gsl.playBeep()
         globals.threadRender = True
+        main = False
 
 
 def checkMonsterPix() :

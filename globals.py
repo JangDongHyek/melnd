@@ -20,7 +20,7 @@ movings = None
 mp_pixcel = [(0, 170, 255),(0, 159, 238)]
 minimap = None
 minimap_my = [(255, 255, 136)]
-my_pos = ()
+my_pos = (1000,560)
 threadRender = False
 my_pixel = []
 map_scope = []
@@ -57,5 +57,22 @@ skills = [
         "key" : pageup,
         "cooldown" : 600,
         "time" : time.time()
+    }
+]
+
+# x,y,점프할위치,줄잡았을떄y,점프할건지,성공여부,2층y
+
+maps = [
+    {
+        "name" : "와보땅 2~3",
+        "x" : 185,
+        "y" : 220,
+        "alt_y" : 216,
+        "catch_y" : 175,
+        "jump" : True,
+        "catch" : False,
+        "end_y" : 136,
+        "x_2" : 185,
+        "y_2" : 205
     }
 ]
