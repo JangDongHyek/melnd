@@ -22,7 +22,7 @@ def findMap(name) :
             return map
 
 def checkHP() :
-    return gsl.pixelSearch([500,1050,510,1060],(190, 190, 190))
+    return gsl.pixelSearch([500,1050,510,1060],[(190, 190, 190)])
 def getDist() :
     # if globals.direction == "left" :
     #     globals.dist = (globals.my_pos[0] - 500, globals.my_pos[1] - 100, globals.my_pos[0] + 30, globals.my_pos[1] + 200)

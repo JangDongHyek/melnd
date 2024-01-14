@@ -81,7 +81,7 @@ maps = [
                 "low_y" : 181,
                 "high_y" : 181,
                 "rope_x" : 203,
-                "rope_y" : 175
+                "rope_y" : 178
 
             },
 
