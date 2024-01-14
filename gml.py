@@ -11,9 +11,9 @@ import lib
 
 def jumpIF(rope) :
     if globals.direction == "left":
-        return globals.minimap_my_pos[0] < (rope + 10)
+        return globals.minimap_my_pos[0] < (rope + 12)
     else :
-        return globals.minimap_my_pos[0] > (rope - 10)
+        return globals.minimap_my_pos[0] > (rope - 12)
 
 
 def findMap(name) :

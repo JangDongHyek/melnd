@@ -67,29 +67,43 @@ def pixelSearch(points, pixcels) :
     end_y = points[3]
     if start_x > 1920:
         start_x = 1900
+    if start_x <= 1 :
+        start_x = 1
+
     if end_x > 1920:
         end_x = 1910
+    if end_x <= 1 :
+        end_x = 1
 
     if start_y > 1080:
         start_y = 1060
+    if start_y <= 1 :
+        start_y = 1
+
     if end_y > 1080:
         end_y = 1070
+    if end_y <= 1 :
+        end_y = 1
 
 
     main = True
     x = start_x
     y = start_y
-    while main:
-        if x == end_x and y == end_y:
-            main = False
-        if screen[x, y] in pixcels:
-            return (x, y)
+    try :
+        while main:
+            if x == end_x and y == end_y:
+                main = False
+            if screen[x, y] in pixcels:
+                return (x, y)
 
-        if x == end_x:
-            y += 1
-            x = start_x
-        x += 1
-    return None
+            if x == end_x:
+                y += 1
+                x = start_x
+            x += 1
+        return None
+    except Exception as e :
+        print("pixcel search")
+        print(points)
 
 def hardKey(key,bool = None,push = 0.1) :
     if(bool == None or bool == 2) :

@@ -10,19 +10,9 @@ import threading
 init.Init()
 
 flag = False
-mp_pixcel = [(0, 170, 255),(0, 159, 238)]
 
-# x,y,점프할위치,줄잡았을떄y,점프불리언,성공여부,2층y
-# globals.map_scope = [115,155] # 개미굴 1-1
-# globals.map_scope = [105,140] # 개미굴 1-2
-# globals.map_scope = [205,250] # 개미굴 2-2
-# globals.map_scope = [320,380] # 개미굴 3-2
-# globals.map_scope = [105,285] # 와보땅 1
-# globals.map_scope = [185,220,216,175,True,False,136] # 와보땅 2
 
-# map = gml.findMap("와보땅 1")
-# map = gml.findMap("와보땅 2~3")
-# globals.monsters = map["monsters"]
+
 # 내케릭 픽셀
 globals.my_pixel = [(34, 102, 68)] # 장달프
 
@@ -37,7 +27,7 @@ map = gml.findMap("와일드보어의 땅")
 globals.monsters = map["monsters"]
 floors = map["floors"]
 
-my_floors = [0]
+my_floors = [0,1,2]
 dict = "left"
 jump = False
 minus = False
@@ -57,7 +47,7 @@ while True :
 
 
         # 현재위치 층수계산
-        floor = None
+        floor = floors[0]
         next_floor = 0
         add_floor = 0
         for i,m in enumerate(floors) :
@@ -66,7 +56,7 @@ while True :
             if low_y <= globals.minimap_my_pos[1] and globals.minimap_my_pos[1] <= high_y :
                 floor = m
                 add_floor = 1
-                if (i+1) >= my_floors[-1] :
+                if i >= my_floors[-1] :
                     minus = True
                 if i <= my_floors[0] :
                     minus = False
