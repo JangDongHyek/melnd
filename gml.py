@@ -40,11 +40,14 @@ def myPos() :
         print("myPos")
 
 def update() :
-    while True:
-
-        myPos()
-        getDist()
-        checkMonsterPix()
+    try :
+        while True:
+            myPos()
+            getDist()
+            checkMonsterPix()
+    except Exception as e:
+        print("update")
+        globals.threadUpdate = True
 
 
 def render() :
@@ -54,9 +57,15 @@ def render() :
         color2 = pm.get_color("#ff0000")
         while pm.overlay_loop():
             pm.begin_drawing()
-            pm.draw_rectangle_lines(globals.dist[0],globals.dist[1],globals.dist[2] - globals.dist[0],globals.dist[3] - globals.dist[1], color, 3.0)
+            pm.draw_rectangle_lines(globals.dist[0] + globals.window_x,
+                                    globals.dist[1] + globals.window_y,
+                                    globals.dist[2] - globals.dist[0],
+                                    globals.dist[3] - globals.dist[1],
+                                    color, 3.0)
             if globals.monster_pos :
-                pm.draw_rectangle(globals.monster_pos[0],globals.monster_pos[1],50,50,color2)
+                pm.draw_rectangle(globals.monster_pos[0]+ globals.window_x,
+                                  globals.monster_pos[1]+ globals.window_y,
+                                  50,50,color2)
             pm.end_drawing()
     except Exception as e:
         print("hwnd")

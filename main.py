@@ -37,6 +37,11 @@ while True :
         render = threading.Thread(target=gml.render)
         render.start()
 
+    if globals.threadUpdate :
+        globals.threadUpdate = False
+        update = threading.Thread(target=gml.update)
+        update.start()
+
     if win32api.GetKeyState(globals.mainKey):
         if not flag :
             gml.getMinimap()
@@ -115,6 +120,10 @@ while True :
                         if gsl.compareTime(a, 4):
                             break
                     gsl.hardKey(globals.up, False)
+
+        # 조건 체크후 힐힐
+        # if gml.ceckHP() :
+        #     gsl.hardKey(globals.pagedown)
 
         # 스킬사용
         for skill in globals.skills :
