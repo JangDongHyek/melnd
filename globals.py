@@ -20,7 +20,7 @@ movings = None
 
 # 메랜
 mp_pixcel = [(0, 170, 255),(0, 159, 238)]
-minimap = None
+minimap = []
 minimap_my = [(255, 255, 136)]
 my_pos = (1000,560)
 threadRender = False
@@ -67,6 +67,7 @@ skills = [
 maps = [
     {
         "name" : "와일드보어의 땅",
+        "minimap" : [12,55,360,230],
         "monsters" : [(198, 146, 148),(137, 122, 88)],#와보,스텀프
         "floors" : [
             {

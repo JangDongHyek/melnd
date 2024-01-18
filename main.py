@@ -15,17 +15,18 @@ flag = False
 
 # 내케릭 픽셀
 globals.my_pixel = [(34, 102, 68)] # 장달프
+map = gml.findMap("와일드보어의 땅")
+globals.monsters = map["monsters"]
+floors = map["floors"]
+globals.minimap = map["minimap"]
 
-gml.getMinimap()
+print(globals.minimap)
+
 update = threading.Thread(target=gml.update)
 update.start()
 time.sleep(1)
 render = threading.Thread(target=gml.render)
 render.start()
-
-map = gml.findMap("와일드보어의 땅")
-globals.monsters = map["monsters"]
-floors = map["floors"]
 
 my_floors = [0,1,2]
 dict = "left"
@@ -44,7 +45,6 @@ while True :
 
     if win32api.GetKeyState(globals.mainKey):
         if not flag :
-            gml.getMinimap()
             flag = True
             thread = True
 
