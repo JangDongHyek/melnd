@@ -35,7 +35,8 @@ monsters = []
 monster_pos = None
 minimap_my_pos = None
 direction = "left"
-dist = None
+dist = None #총 공격사거리
+init_dist = [] # 공격사거리 설정값
 
 thread_flag = False
 
@@ -67,35 +68,286 @@ skills = [
 maps = [
     {
         "name" : "와일드보어의 땅",
+        "map_dict" : "left",
         "minimap" : [12,55,360,230],
+        "init_dist" : [-450,-100,+450,+200],
         "monsters" : [(198, 146, 148),(137, 122, 88)],#와보,스텀프
         "floors" : [
+
             {
-                "start_x" : 105,
-                "end_x" : 285,
-                "low_y" : 199,
-                "high_y" : 207,
-                "rope_x" : 270,
-                "rope_y" : 196
+                "name": "1",
+                "search_start_x": 95,
+                "search_end_x": 295,
+                "start_x": 105,
+                "end_x": 285,
+                "low_y": 199,
+                "high_y": 207,
+                "move_dict": "up",
+                "double_y": False,
+                "move_type": "jump",
+                "rope_x": 270,
+                "rope_y": 196,
+                "teleport_xL": None,
+                "teleport_yL": None,
+                "teleport_xR": None,
+                "teleport_yR": None
             },
 
             {
-                "start_x" : 185,
+                "name": "2",
+                "search_start_x": 185,
+                "search_end_x": 230,
+                "start_x": 185,
+                "end_x": 220,
+                "low_y": 181,
+                "high_y": 181,
+                "move_dict": "up",
+                "double_y": True,
+                "move_type": "jump",
+                "rope_x": 203,
+                "rope_y": 178,
+                "teleport_xL": None,
+                "teleport_yL": None,
+                "teleport_xR": None,
+                "teleport_yR": None
+            },
+
+            {
+                "name": "3",
+                "search_start_x": 165,
+                "search_end_x": 237,
+                "start_x": 175,
+                "end_x": 227,
+                "low_y": 136,
+                "high_y": 136,
+                "move_dict": "down",
+                "double_y": False,
+                "move_type": "jump",
+                "rope_x": 190,
+                "rope_y": 136,
+                "teleport_xL": None,
+                "teleport_yL": None,
+                "teleport_xR": None,
+                "teleport_yR": None
+            },
+
+        ]
+    },
+{
+        "name" : "1호선 4구역",
+        "map_dict": "right",
+        "minimap" : [12,55,432,218],
+        "init_dist" : [-250,-70,+250,+250],
+        "monsters" : [(206, 222, 239)],#레이스
+        "floors" : [
+            {
+                "name" : "1-1",
+                "search_start_x" : 90,
+                "search_end_x" : 175,
+                "start_x" : 101,
+                "end_x" : 158,
+                "low_y" : 153,
+                "high_y" : 153,
+                "move_dict" : "up",
+                "double_y" : False,
+                "move_type" : "teleport",
+                "rope_x" : None,
+                "rope_y" : None,
+                "teleport_xL" : 131,
+                "teleport_yL" : 153,
+                "teleport_xR" : 131,
+                "teleport_yR" : 153
+            },
+
+            {
+                "name" : "1-2",
+                "search_start_x" : 194,
+                "search_end_x" : 320,
+                "start_x" : 210,
+                "end_x" : 310,
+                "low_y" : 153,
+                "high_y" : 153,
+                "move_dict" : "up",
+                "double_y" : False,
+                "move_type" : "teleport",
+                "rope_x" : None,
+                "rope_y" : None,
+                "teleport_xL" : 300,
+                "teleport_yL" : 153,
+                "teleport_xR" : 300,
+                "teleport_yR" : 153
+            },
+
+            {
+                "name" : "2-1",
+                "search_start_x": 90,
+                "search_end_x": 170,
+                "start_x" : 115,
+                "end_x" : 147,
+                "low_y" : 138,
+                "high_y" : 138,
+                "move_dict" : "up",
+                "double_y": False,
+                "move_type" : "teleport",
+                "rope_x" : None,
+                "rope_y" : None,
+                "teleport_xL" : 134,
+                "teleport_yL" : 138,
+                "teleport_xR" : 134,
+                "teleport_yR" : 138
+            },
+
+            {
+                "name": "2-2",
+                "search_start_x": 186,
+                "search_end_x": 260,
+                "start_x": 209,
+                "end_x": 221,
+                "low_y": 138,
+                "high_y": 138,
+                "move_dict": "down",
+                "double_y": False,
+                "move_type": "jump",
+                "rope_x": None,
+                "rope_y": None,
+                "teleport_xL": 219,
+                "teleport_yL": 138,
+                "teleport_xR": 219,
+                "teleport_yR": 138
+            },
+
+{
+                "name": "2-3",
+                "search_start_x": 257,
+                "search_end_x": 342,
+                "start_x": 274,
+                "end_x": 324,
+                "low_y": 138,
+                "high_y": 138,
+                "move_dict": "up",
+                "double_y": False,
+                "move_type": "teleport",
+                "rope_x": None,
+                "rope_y": None,
+                "teleport_xL": 314,
+                "teleport_yL": 138,
+                "teleport_xR": 314,
+                "teleport_yR": 138
+            },
+
+
+            {
+                "name" : "3-1",
+                "search_start_x": 115,
+                "search_end_x": 203,
+                "start_x" : 135,
+                "end_x" : 180,
+                "low_y" : 123,
+                "high_y" : 123,
+                "move_dict" : "up",
+                "double_y" : True,
+                "move_type" : "teleport",
+                "rope_x" : None,
+                "rope_y" : None,
+                "teleport_xL" : 125,
+                "teleport_yL" : 123,
+                "teleport_xR" : 175,
+                "teleport_yR" : 123,
+            },
+
+            {
+                "name": "3-2",
+                "search_start_x": 212,
+                "search_end_x": 304,
+                "start_x": 220,
+                "end_x": 227,
+                "low_y": 127,
+                "high_y": 127,
+                "move_dict": "up",
+                "double_y": True,
+                "move_type": "teleport",
+                "rope_x": None,
+                "rope_y": None,
+                "teleport_xL": 225,
+                "teleport_yL": 127,
+                "teleport_xR": 225,
+                "teleport_yR": 127,
+            },
+
+            {
+                "name": "3-3",
+                "search_start_x": 300,
+                "search_end_x": 356,
+                "start_x": 312,
+                "end_x": 342,
+                "low_y": 127,
+                "high_y": 127,
+                "move_dict": "up",
+                "double_y": True,
+                "move_type": "teleport",
+                "rope_x": None,
+                "rope_y": None,
+                "teleport_xL": 314,
+                "teleport_yL": 127,
+                "teleport_xR": 314,
+                "teleport_yR": 127,
+            },
+
+            {
+                "name" : "4-1",
+                "search_start_x": 90,
+                "search_end_x": 132,
+                "start_x" : 86,
+                "end_x" : 130,
+                "low_y" : 108,
+                "high_y" : 108,
+                "move_dict" : "down",
+                "double_y": False,
+                "move_type" : "jump",
+                "rope_x" : 125,
+                "rope_y" : 108,
+                "teleport_xL" : None,
+                "teleport_yL" : None,
+                "teleport_xR" : None,
+                "teleport_yR" : None
+            },
+
+            {
+                "name" : "4-2",
+                "search_start_x": 167,
+                "search_end_x": 272,
+                "start_x" : 189,
                 "end_x" : 220,
-                "low_y" : 181,
-                "high_y" : 181,
-                "rope_x" : 203,
-                "rope_y" : 178
-
+                "low_y" : 108,
+                "high_y" : 108,
+                "move_dict" : "down",
+                "double_y": False,
+                "move_type" : "jump",
+                "rope_x" : 213,
+                "rope_y" : 108,
+                "teleport_xL" : None,
+                "teleport_yL" : None,
+                "teleport_xR" : None,
+                "teleport_yR" : None
             },
 
             {
-                "start_x" : 185,
-                "end_x" : 205,
-                "low_y" : 136,
-                "high_y" : 136,
-                "rope_x" : 203,
-                "rope_y" : 0
+                "name": "4-3",
+                "search_start_x": 220,
+                "search_end_x": 310,
+                "start_x": 230,
+                "end_x": 298,
+                "low_y": 108,
+                "high_y": 108,
+                "move_dict": "down",
+                "double_y": False,
+                "move_type": "jump",
+                "rope_x": 233,
+                "rope_y": 108,
+                "teleport_xL": None,
+                "teleport_yL": None,
+                "teleport_xR": None,
+                "teleport_yR": None
             },
         ]
     }

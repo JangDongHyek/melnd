@@ -8,9 +8,12 @@ import gml
 import win32gui
 
 init.Init()
-win32gui.SetForegroundWindow(globals.hwnd)
-x, y, x1, y1 = win32gui.GetClientRect(globals.hwnd)
-x, y = win32gui.ClientToScreen(globals.hwnd, (x, y))
-print(x,y)
-x1, y1 = win32gui.ClientToScreen(globals.hwnd, (x1 - x, y1 - y))
-print(x1,y1)
+map = gml.findMap("1호선 4구역")
+globals.init_dist = map["init_dist"]
+globals.monsters = map["monsters"]
+floors = map["floors"]
+globals.minimap = map["minimap"]
+
+
+gml.getMyPosition()
+print(globals.minimap_my_pos)

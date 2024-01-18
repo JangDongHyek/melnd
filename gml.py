@@ -9,6 +9,14 @@ import ctypes
 import pyMeow as pm
 import lib
 
+def teleportIF(floor_dict,floor) :
+    if floor_dict == "left":
+        return globals.minimap_my_pos[0] >= floor["teleport_xL"]
+    elif floor_dict == "right":
+        return globals.minimap_my_pos[0] >= floor["teleport_xR"]
+
+    return False
+
 def jumpIF(rope) :
     if globals.direction == "left":
         return globals.minimap_my_pos[0] < (rope + 12)
@@ -29,11 +37,14 @@ def getDist() :
     # else :
     #     globals.dist = (globals.my_pos[0],globals.my_pos[1]-100,globals.my_pos[0]+500,globals.my_pos[1]+200)
 
-    globals.dist = (globals.my_pos[0] - 450, globals.my_pos[1] - 100, globals.my_pos[0] + 450, globals.my_pos[1] + 200)
+    globals.dist = (globals.my_pos[0] + globals.init_dist[0],
+                    globals.my_pos[1] + globals.init_dist[1],
+                    globals.my_pos[0] + globals.init_dist[2],
+                    globals.my_pos[1] + globals.init_dist[3])
 
 def myPos() :
     try :
-        p = gsl.pixelSearch([350,550,1650,800],globals.my_pixel)
+        p = gsl.pixelSearch([350,500,1650,800],globals.my_pixel)
         if(p) :
             globals.my_pos = (p[0],p[1])
     except Exception as e :
