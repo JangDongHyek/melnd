@@ -11,14 +11,20 @@ class Init :
         win32gui.SetForegroundWindow(globals.hwnd)
         x, y, x1, y1 = win32gui.GetClientRect(globals.hwnd)
         x, y = win32gui.ClientToScreen(globals.hwnd, (x, y))
+
+        if x1 != 1920 and y1 != 1080 :
+            print("해상도가 맞지 않습니다 x : {}, y : {}".format(x1,y1))
+            exit()
+
         globals.window_x = x
         globals.window_y = y
+
 
         # classDD 설정
         globals.ddl = ctypes.windll.LoadLibrary("./dd/dd202x.8.x64.dll")
         st = globals.ddl.DD_btn(0)  # classdd 초기설정
         if st != 1:
-            lib.alert("ClassDD에 문제가 생겼습니다.")
+            print("ClassDD에 문제가 생겼습니다.")
             exit()
 
 

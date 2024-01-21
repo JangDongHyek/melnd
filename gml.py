@@ -8,6 +8,7 @@ import win32api
 import ctypes
 import pyMeow as pm
 import lib
+import time
 
 def teleportIF(floor_dict,floor) :
     if floor_dict == "left":
@@ -87,6 +88,7 @@ def checkMonsterPix() :
     p = gsl.pixelSearch(globals.dist,globals.monsters)
     if(p) :
         globals.monster_pos = p
+        globals.monster_time = time.time()
     else :
         globals.monster_pos = None
 def checkMp():
@@ -115,5 +117,3 @@ def getMyPosition() :
     p = gsl.pixelSearch(globals.minimap,globals.minimap_my)
     if(p) :
         globals.minimap_my_pos = p
-
-    return None
